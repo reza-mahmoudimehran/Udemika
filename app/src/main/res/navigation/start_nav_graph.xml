@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="ir.reza_mahmoudi.udemika.fragment.home.HomeFragment"
+        android:name="ir.reza_mahmoudi.udemika.view.fragment.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 </navigation>

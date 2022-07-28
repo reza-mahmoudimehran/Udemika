@@ -1,4 +1,4 @@
-package ir.reza_mahmoudi.udemika.fragment.home
+package ir.reza_mahmoudi.udemika.view.fragment.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
