@@ -2,4 +2,6 @@
     <string name="app_name">Udemika</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="view_comments">View all comments</string>
+    <string name="like_count">liked by peoples</string>
 </resources>

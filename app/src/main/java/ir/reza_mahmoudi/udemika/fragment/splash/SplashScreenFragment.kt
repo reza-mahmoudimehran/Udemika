@@ -1,16 +1,15 @@
-package ir.reza_mahmoudi.udemika
+package ir.reza_mahmoudi.udemika.splash
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import ir.reza_mahmoudi.udemika.R
 import ir.reza_mahmoudi.udemika.databinding.FragmentSplashScreenBinding
 
 @SuppressLint("CustomSplashScreen")

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="ir.reza_mahmoudi.udemika.SplashScreenFragment"
+        android:name="ir.reza_mahmoudi.udemika.splash.SplashScreenFragment"
         android:label="SplashScreenFragment" >
         <action
             android:id="@+id/action_splashScreenFragment_to_homeFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="ir.reza_mahmoudi.udemika.HomeFragment"
+        android:name="ir.reza_mahmoudi.udemika.fragment.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 </navigation>
