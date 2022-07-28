@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppName">
+        <item name="android:fontFamily">@font/font_main</item>
+        <item name="android:textSize">@dimen/font_size_mxlarge</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:padding">@dimen/spacing_medium</item>
+    </style>
+</resources>
