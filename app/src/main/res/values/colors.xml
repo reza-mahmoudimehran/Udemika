@@ -10,4 +10,5 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="grey_600">#707070</color>
     <color name="grey_700">#535353</color>
+    <color name="red_600">#C11546</color>
 </resources>

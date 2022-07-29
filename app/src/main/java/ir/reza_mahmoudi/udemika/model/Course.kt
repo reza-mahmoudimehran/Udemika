@@ -18,5 +18,8 @@ data class Course (
     @SerializedName("isLiked")
     val isLiked: Boolean?,
     @SerializedName("comments")
-    val comments: List<String>?
+    val comments: List<String>?,
+    @SerializedName("commentCount")
+    val commentCount: Int?
+
 )
