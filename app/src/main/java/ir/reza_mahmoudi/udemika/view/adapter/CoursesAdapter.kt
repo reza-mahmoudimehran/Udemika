@@ -2,9 +2,11 @@ package ir.reza_mahmoudi.udemika.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ir.reza_mahmoudi.udemika.databinding.ItemCourseBinding
 import ir.reza_mahmoudi.udemika.model.Course
+import ir.reza_mahmoudi.udemika.utils.DiffUtilCallback
 
 class CoursesAdapter : RecyclerView.Adapter<CoursesAdapter.ViewHolder>() {
 
@@ -44,7 +46,10 @@ class CoursesAdapter : RecyclerView.Adapter<CoursesAdapter.ViewHolder>() {
     }
 
     fun updateCourses(newData: List<Course>){
-        courses=newData
-        notifyDataSetChanged()
+        val recipesDiffUtil =
+            DiffUtilCallback(courses, newData)
+        val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
+        courses = newData
+        diffUtilResult.dispatchUpdatesTo(this)
     }
 }
