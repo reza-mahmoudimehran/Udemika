@@ -33,6 +33,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 }
 
@@ -53,10 +54,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
-    // Dagger - Hilt
-//    implementation "com.google.dagger:hilt-android:2.38.1"
-//    kapt "com.google.dagger:hilt-android-compiler:2.38.1"
-
+    //Hilt
     implementation 'com.google.dagger:hilt-android:2.43'
     kapt 'com.google.dagger:hilt-compiler:2.43'
 
