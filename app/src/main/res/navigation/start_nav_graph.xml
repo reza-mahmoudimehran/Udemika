@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="ir.reza_mahmoudi.udemika.splash.SplashScreenFragment"
+        android:name="ir.reza_mahmoudi.udemika.view.fragment.splash.SplashScreenFragment"
         android:label="SplashScreenFragment" >
         <action
             android:id="@+id/action_splashScreenFragment_to_homeFragment"

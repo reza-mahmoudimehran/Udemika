@@ -1,4 +1,4 @@
-package ir.reza_mahmoudi.udemika.splash
+package ir.reza_mahmoudi.udemika.view.fragment.splash
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -24,10 +24,11 @@ class SplashScreenFragment : Fragment() {
         return binding.root
     }
     private fun loadAnimation(){
+        //TODO: change splash time
         binding.loadingAnimation.setAnimation("logo_animation.json")
         binding.loadingAnimation.playAnimation()
         Handler(Looper.getMainLooper()).postDelayed({
             findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
-        }, 5000)
+        }, 5)
     }
 }

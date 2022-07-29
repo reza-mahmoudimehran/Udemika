@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ir.reza_mahmoudi.udemika">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".UdemikaApp"
         android:allowBackup="true"
@@ -15,7 +18,7 @@
         android:theme="@style/Theme.Udemika"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".view.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
