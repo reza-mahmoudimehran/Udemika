@@ -1,13 +1,15 @@
 package ir.reza_mahmoudi.udemika.view.activity
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.reza_mahmoudi.udemika.data.repository.Repository
-import ir.reza_mahmoudi.udemika.model.KotlinCourses
+import ir.reza_mahmoudi.udemika.model.Course
+import ir.reza_mahmoudi.udemika.model.UdemyResponse
+import kotlinx.coroutines.flow.Flow
 import ir.reza_mahmoudi.udemika.utils.NetworkHelper
 import ir.reza_mahmoudi.udemika.utils.NetworkResult
+import ir.reza_mahmoudi.udemika.utils.showLog
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
@@ -18,8 +20,14 @@ class MainViewModel @Inject constructor(
      private val networkHelper: NetworkHelper
 ) : ViewModel() {
 
-    var coursesResponse: MutableLiveData<NetworkResult<KotlinCourses>> = MutableLiveData()
+    val localUdemyResponse: LiveData<UdemyResponse> = repository.local.getUdemyResponse().asLiveData()
 
+    var coursesResponse: MutableLiveData<NetworkResult<UdemyResponse>> = MutableLiveData()
+
+    private fun insertRecipes(udemyResponse: UdemyResponse) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.insertUdemyCourses(udemyResponse)
+        }
 
     fun getCourses() = viewModelScope.launch {
         getCoursesSafeCall()
@@ -31,6 +39,10 @@ class MainViewModel @Inject constructor(
                 val response = repository.remote.getCourses()
                 coursesResponse.value = handleCoursesResponse(response)
 
+                val udemyResponse = coursesResponse.value!!.data
+                if(udemyResponse != null) {
+                    insertRecipes(udemyResponse)
+                }
             } catch (e: Exception) {
                 coursesResponse.value = NetworkResult.Error(e.toString()+"Courses not found.")
             }
@@ -38,7 +50,7 @@ class MainViewModel @Inject constructor(
             coursesResponse.value = NetworkResult.Error("Please Check Your Internet Connection.")
         }
     }
-    private fun handleCoursesResponse(response: Response<KotlinCourses>): NetworkResult<KotlinCourses>? {
+    private fun handleCoursesResponse(response: Response<UdemyResponse>): NetworkResult<UdemyResponse>? {
         return when {
             response.isSuccessful -> {
                 val foodRecipes = response.body()

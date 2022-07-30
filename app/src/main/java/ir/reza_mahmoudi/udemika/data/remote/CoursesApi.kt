@@ -1,10 +1,10 @@
 package ir.reza_mahmoudi.udemika.data.remote
 
-import ir.reza_mahmoudi.udemika.model.KotlinCourses
+import ir.reza_mahmoudi.udemika.model.UdemyResponse
 import retrofit2.Response
 import retrofit2.http.GET
 
 interface CoursesApi {
     @GET("v3/d1997e22-b6e8-428c-9d7a-f3fa1101b451")
-    suspend fun getCourses() : Response<KotlinCourses>
+    suspend fun getCourses() : Response<UdemyResponse>
 }

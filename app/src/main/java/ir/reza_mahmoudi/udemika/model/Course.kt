@@ -1,10 +1,19 @@
 package ir.reza_mahmoudi.udemika.model
 
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import ir.reza_mahmoudi.udemika.utils.Constants
 
+@Entity(
+    tableName = Constants.COURSE_TABLE
+)
 data class Course (
+    @PrimaryKey()
     @SerializedName("id")
     var id: Long,
+    var udemyResponseId: Long,
     @SerializedName("title")
     val title: String?,
     @SerializedName("url")
@@ -17,9 +26,14 @@ data class Course (
     val likeCount: Int?,
     @SerializedName("isLiked")
     val isLiked: Boolean?,
+    @Ignore
     @SerializedName("comments")
     val comments: List<String>?,
     @SerializedName("commentCount")
     val commentCount: Int?
-
-)
+){
+    constructor(id: Long,udemyResponseId: Long,title: String?,
+                url: String?,imageUrl: String?,summary: String?,
+                likeCount: Int?,isLiked: Boolean?,commentCount: Int?) :
+            this(id,udemyResponseId,title,url,imageUrl,summary,likeCount,isLiked,null,commentCount)
+}

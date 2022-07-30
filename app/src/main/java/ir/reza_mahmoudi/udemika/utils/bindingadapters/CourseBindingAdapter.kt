@@ -1,4 +1,4 @@
-package ir.reza_mahmoudi.udemika.bindingadapters
+package ir.reza_mahmoudi.udemika.utils.bindingadapters
 
 import android.widget.ImageButton
 import android.widget.ImageView
