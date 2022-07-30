@@ -28,5 +28,8 @@ class LocalDataSource @Inject constructor(
     fun getComments(courseId: Long): Flow<List<Comment>>{
         return coursesDao.getComments(courseId)
     }
+    suspend fun changeCourseIsLiked(isLiked:Boolean, courseId: Long){
+        coursesDao.changeCourseIsLiked(isLiked,courseId)
+    }
 
 }

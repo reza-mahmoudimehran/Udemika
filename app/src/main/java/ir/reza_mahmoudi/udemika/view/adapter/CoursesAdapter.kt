@@ -8,14 +8,18 @@ import ir.reza_mahmoudi.udemika.databinding.ItemCourseBinding
 import ir.reza_mahmoudi.udemika.model.Course
 import ir.reza_mahmoudi.udemika.utils.DiffUtilCallback
 
-class CoursesAdapter(private val goToComments: () -> Unit) : RecyclerView.Adapter<CoursesAdapter.ViewHolder>() {
+class CoursesAdapter(private val goToComments: () -> Unit,
+                     private val changeCourseIsLiked: (isLiked:Boolean, courseId: Long) -> Unit) : RecyclerView.Adapter<CoursesAdapter.ViewHolder>() {
 
     private var courses = emptyList<Course>()
 
     class ViewHolder(private val binding: ItemCourseBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(course: Course,goToComments: () -> Unit) {
+        fun bind(course: Course,
+                 goToComments: () -> Unit,
+                 changeCourseIsLiked: (isLiked:Boolean, courseId: Long) -> Unit
+                 ,isLiked:Boolean, courseId: Long) {
             // Data Binding
             binding.course = course
             binding.commentCount.setOnClickListener {
@@ -23,6 +27,9 @@ class CoursesAdapter(private val goToComments: () -> Unit) : RecyclerView.Adapte
             }
             binding.commentIcon.setOnClickListener {
                 goToComments()
+            }
+            binding.likeIcon.setOnClickListener {
+                changeCourseIsLiked(isLiked,courseId)
             }
             binding.executePendingBindings()
         }
@@ -44,7 +51,9 @@ class CoursesAdapter(private val goToComments: () -> Unit) : RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentCourse = courses[position]
-        holder.bind(currentCourse,goToComments)
+        val courseId= courses[position].id
+        val isLiked= courses[position].isLiked
+        holder.bind(currentCourse,goToComments,changeCourseIsLiked,isLiked!!,courseId)
     }
 
     override fun getItemCount(): Int {

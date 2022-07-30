@@ -28,4 +28,7 @@ interface CoursesDao {
 
     @Query("SELECT * FROM comments_table where courseId= :courseId")
     fun getComments(courseId:Long): Flow<List<Comment>>
+
+    @Query("UPDATE course_table SET isLiked = :isLiked WHERE id = :courseId")
+    suspend fun changeCourseIsLiked(isLiked:Boolean, courseId: Long)
 }

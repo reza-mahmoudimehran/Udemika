@@ -1,5 +1,6 @@
 package ir.reza_mahmoudi.udemika.view.activity
 
+import android.content.SharedPreferences
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.reza_mahmoudi.udemika.data.repository.Repository
@@ -16,53 +17,69 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-   private val repository: Repository,
-     private val networkHelper: NetworkHelper
+    private val repository: Repository,
+    private val networkHelper: NetworkHelper,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
-    val localUdemyResponse: LiveData<List<UdemyResponse>> = repository.local.getUdemyResponse().asLiveData()
-    val localCourses: LiveData<List<Course>> = repository.local.getCourses().asLiveData()
-    val localCourseComments: LiveData<List<Comment>> = repository.local.getComments(2642574).asLiveData()
+    val localUdemyResponse: LiveData<List<UdemyResponse>> =
+        repository.local.getUdemyResponse().asLiveData()
+    var localCourses: LiveData<List<Course>> = MutableLiveData()
+    val localCourseComments: LiveData<List<Comment>> =
+        repository.local.getComments(2642574).asLiveData()
 
-    var coursesResponse: MutableLiveData<NetworkResult<UdemyResponse>> = MutableLiveData()
+    var coursesListFromApi: MutableLiveData<NetworkResult<UdemyResponse>> = MutableLiveData()
 
     private fun insertUdemyResponse(udemyResponse: UdemyResponse) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.local.insertUdemyResponse(udemyResponse)
             udemyResponse.coursesList?.let {
-                repository.local.insertCourses(it)
-                for (course in udemyResponse.coursesList){
+                repository.local.insertCourses(it.reversed())
+                //showLog(" ",it.joinToString())
+                for (course in udemyResponse.coursesList) {
                     course.comments?.let { comments -> repository.local.insertComments(comments) }
                 }
             }
+            sharedPreferences.edit().putBoolean("firstLogin", false).apply()
         }
 
-    fun getCourses() = viewModelScope.launch {
-        getCoursesSafeCall()
+    fun changeIsLiked(isLiked:Boolean, courseId: Long)=viewModelScope.launch(Dispatchers.IO) {
+        repository.local.changeCourseIsLiked(!isLiked, courseId)
     }
-    private suspend fun getCoursesSafeCall() {
-        coursesResponse.value = NetworkResult.Loading()
+    fun getCourses() = viewModelScope.launch {
+        if (sharedPreferences.getBoolean("firstLogin", true)) {
+            getCoursesFromApi()
+            showLog("getCourses ", "api")
+        } else {
+            localCourses = repository.local.getCourses().asLiveData()
+            showLog("getCourses ", "local")
+        }
+    }
+
+    private suspend fun getCoursesFromApi() {
+        coursesListFromApi.value = NetworkResult.Loading()
         if (networkHelper.isNetworkConnected()) {
             try {
                 val response = repository.remote.getCourses()
-                coursesResponse.value = handleCoursesResponse(response)
+                coursesListFromApi.value = handleCoursesResponse(response)
 
-                val udemyResponse = coursesResponse.value!!.data
-                if(udemyResponse != null) {
+                val udemyResponse = coursesListFromApi.value!!.data
+                if (udemyResponse != null) {
                     insertUdemyResponse(udemyResponse)
                 }
             } catch (e: Exception) {
-                coursesResponse.value = NetworkResult.Error(e.toString()+"Courses not found.")
+                coursesListFromApi.value = NetworkResult.Error("Courses not found.")
             }
         } else {
-            coursesResponse.value = NetworkResult.Error("Please Check Your Internet Connection.")
+            coursesListFromApi.value = NetworkResult.Error("Please Check Your Internet Connection.")
         }
     }
-    private fun handleCoursesResponse(response: Response<UdemyResponse>): NetworkResult<UdemyResponse>? {
+
+    private fun handleCoursesResponse(response: Response<UdemyResponse>): NetworkResult<UdemyResponse> {
         return when {
             response.isSuccessful -> {
-                val foodRecipes = response.body()
-                NetworkResult.Success(foodRecipes!!)
+                val udemyResponse = response.body()
+                NetworkResult.Success(udemyResponse!!)
             }
             else -> {
                 NetworkResult.Error(response.message())

@@ -20,7 +20,10 @@ import ir.reza_mahmoudi.udemika.view.adapter.CoursesAdapter
 class HomeFragment : Fragment() {
     private lateinit var mainViewModel: MainViewModel
     private  lateinit var binding: FragmentHomeBinding
-    private val mAdapter by lazy { CoursesAdapter(){goToComments()} }
+    private val mAdapter by lazy {
+        CoursesAdapter(
+            {goToComments()},
+            {isLiked:Boolean, courseId: Long ->changeIsLiked(isLiked, courseId)}) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
@@ -35,7 +38,7 @@ class HomeFragment : Fragment() {
         return binding.root
     }
     private fun observeViewModel(){
-        mainViewModel.coursesResponse.observe(viewLifecycleOwner) { it ->
+        mainViewModel.coursesListFromApi.observe(viewLifecycleOwner) { it ->
             when (it) {
                 is NetworkResult.Success -> {
                     binding.coursesList.adapter = mAdapter
@@ -54,8 +57,17 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+        mainViewModel.localCourses.observe(viewLifecycleOwner) {
+            binding.coursesList.adapter = mAdapter
+            binding.coursesList.layoutManager = LinearLayoutManager(requireContext())
+            mAdapter.updateCourses(it)
+        }
+
     }
     private fun goToComments(){
         findNavController().navigate(R.id.action_homeFragment_to_commentsFragment)
+    }
+    private fun changeIsLiked(isLiked:Boolean, courseId: Long){
+        mainViewModel.changeIsLiked(isLiked, courseId)
     }
 }
