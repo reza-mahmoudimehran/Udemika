@@ -8,16 +8,22 @@ import ir.reza_mahmoudi.udemika.databinding.ItemCourseBinding
 import ir.reza_mahmoudi.udemika.model.Course
 import ir.reza_mahmoudi.udemika.utils.DiffUtilCallback
 
-class CoursesAdapter : RecyclerView.Adapter<CoursesAdapter.ViewHolder>() {
+class CoursesAdapter(private val goToComments: () -> Unit) : RecyclerView.Adapter<CoursesAdapter.ViewHolder>() {
 
     private var courses = emptyList<Course>()
 
     class ViewHolder(private val binding: ItemCourseBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(course: Course) {
+        fun bind(course: Course,goToComments: () -> Unit) {
             // Data Binding
             binding.course = course
+            binding.commentCount.setOnClickListener {
+                goToComments()
+            }
+            binding.commentIcon.setOnClickListener {
+                goToComments()
+            }
             binding.executePendingBindings()
         }
 
@@ -38,7 +44,7 @@ class CoursesAdapter : RecyclerView.Adapter<CoursesAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentCourse = courses[position]
-        holder.bind(currentCourse)
+        holder.bind(currentCourse,goToComments)
     }
 
     override fun getItemCount(): Int {

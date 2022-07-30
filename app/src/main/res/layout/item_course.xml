@@ -9,17 +9,23 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_middle"
+        app:cardElevation="@dimen/spacing_middle"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/spacing_xmedium">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageView"
+                android:id="@+id/coverImage"
                 android:layout_width="match_parent"
-                android:layout_height="216dp"
-                android:background="@color/black"
+                android:layout_height="256dp"
+                android:background="@color/grey_600"
+                android:scaleType="fitXY"
+                loadImage="@{course.imageUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatImageView">
+                app:layout_constraintTop_toBottomOf="@+id/coverImage">
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:layout_width="wrap_content"
@@ -41,6 +47,7 @@
                     android:src="@drawable/ic_favorite" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/commentIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/spacing_medium"

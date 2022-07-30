@@ -19,5 +19,14 @@
         android:id="@+id/homeFragment"
         android:name="ir.reza_mahmoudi.udemika.view.fragment.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_commentsFragment"
+            app:destination="@id/commentsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/commentsFragment"
+        android:name="ir.reza_mahmoudi.udemika.view.fragment.comments.CommentsFragment"
+        android:label="fragment_comments"
+        tools:layout="@layout/fragment_comments" />
 </navigation>

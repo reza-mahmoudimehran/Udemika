@@ -1,13 +1,23 @@
 package ir.reza_mahmoudi.udemika.bindingadapters
 
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import ir.reza_mahmoudi.udemika.R
+import ir.reza_mahmoudi.udemika.utils.getProgressDrawable
+import ir.reza_mahmoudi.udemika.utils.loadImage
 
 class CourseBindingAdapter {
     companion object {
+        @BindingAdapter("loadImage")
+        @JvmStatic
+        fun loadImage(imageView: ImageView, imageUrl: String) {
+            val progressDrawable= getProgressDrawable(imageView.context)
+            imageView.loadImage(imageUrl,progressDrawable)
+        }
+
         @BindingAdapter("setLikeCount")
         @JvmStatic
         fun setLikeCount(textView: TextView, likeCount: Int) {
