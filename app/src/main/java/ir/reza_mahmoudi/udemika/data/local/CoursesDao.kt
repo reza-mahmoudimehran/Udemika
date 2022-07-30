@@ -26,8 +26,9 @@ interface CoursesDao {
     @Insert()
     suspend fun insertComments(comments: List<Comment>)
 
-    @Query("SELECT * FROM comments_table where courseId= :courseId")
-    fun getComments(courseId:Long): Flow<List<Comment>>
+    //@Query("SELECT * FROM comments_table where courseId= :courseId")
+    @Query("SELECT * FROM comments_table where courseId= :courseId ORDER BY id ASC LIMIT :limit OFFSET :offset")
+    suspend fun getComments(courseId:Long,limit: Int, offset: Int): List<Comment>
 
     @Query("UPDATE course_table SET isLiked = :isLiked WHERE id = :courseId")
     suspend fun changeCourseIsLiked(isLiked:Boolean, courseId: Long)

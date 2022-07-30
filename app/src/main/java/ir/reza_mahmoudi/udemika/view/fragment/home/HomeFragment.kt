@@ -33,30 +33,11 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-        mainViewModel.getCourses()
+        mainViewModel.getCoursesFromLocal()
         observeViewModel()
         return binding.root
     }
     private fun observeViewModel(){
-        mainViewModel.coursesListFromApi.observe(viewLifecycleOwner) { it ->
-            when (it) {
-                is NetworkResult.Success -> {
-                    binding.coursesList.adapter = mAdapter
-                    binding.coursesList.layoutManager = LinearLayoutManager(requireContext())
-                    it.data?.let {kotlinCourses->
-                        kotlinCourses.coursesList?.let { coursesList ->
-                            mAdapter.updateCourses(
-                            coursesList)
-                        }
-                    }
-                }
-                is NetworkResult.Error -> {
-                    showLog("observe Home ViewModel: ",it.message.toString())
-                }
-                is NetworkResult.Loading -> {
-                }
-            }
-        }
         mainViewModel.localCourses.observe(viewLifecycleOwner) {
             binding.coursesList.adapter = mAdapter
             binding.coursesList.layoutManager = LinearLayoutManager(requireContext())
