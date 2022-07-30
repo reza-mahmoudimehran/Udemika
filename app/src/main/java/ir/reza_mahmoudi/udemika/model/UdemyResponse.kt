@@ -10,14 +10,17 @@ import ir.reza_mahmoudi.udemika.utils.Constants
     tableName = Constants.UDEMY_TABLE
 )
 data class UdemyResponse (
-    @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    @PrimaryKey()
+    @SerializedName("category_id")
+    val categoryId: Long,
     @SerializedName("title")
     var title: String,
+    @SerializedName("item_type")
+    var itemType: String,
     @Ignore
     @SerializedName("items")
     val coursesList: List<Course>?
 ){
-    constructor(id: Long,title: String) :
-            this(id,title,null)
+    constructor(categoryId: Long,title: String,itemType: String) :
+            this(categoryId,title,itemType,null)
 }

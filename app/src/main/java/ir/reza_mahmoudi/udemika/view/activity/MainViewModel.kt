@@ -3,9 +3,9 @@ package ir.reza_mahmoudi.udemika.view.activity
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.reza_mahmoudi.udemika.data.repository.Repository
+import ir.reza_mahmoudi.udemika.model.Comment
 import ir.reza_mahmoudi.udemika.model.Course
 import ir.reza_mahmoudi.udemika.model.UdemyResponse
-import kotlinx.coroutines.flow.Flow
 import ir.reza_mahmoudi.udemika.utils.NetworkHelper
 import ir.reza_mahmoudi.udemika.utils.NetworkResult
 import ir.reza_mahmoudi.udemika.utils.showLog
@@ -20,13 +20,21 @@ class MainViewModel @Inject constructor(
      private val networkHelper: NetworkHelper
 ) : ViewModel() {
 
-    val localUdemyResponse: LiveData<UdemyResponse> = repository.local.getUdemyResponse().asLiveData()
+    val localUdemyResponse: LiveData<List<UdemyResponse>> = repository.local.getUdemyResponse().asLiveData()
+    val localCourses: LiveData<List<Course>> = repository.local.getCourses().asLiveData()
+    val localCourseComments: LiveData<List<Comment>> = repository.local.getComments(2642574).asLiveData()
 
     var coursesResponse: MutableLiveData<NetworkResult<UdemyResponse>> = MutableLiveData()
 
-    private fun insertRecipes(udemyResponse: UdemyResponse) =
+    private fun insertUdemyResponse(udemyResponse: UdemyResponse) =
         viewModelScope.launch(Dispatchers.IO) {
-            repository.local.insertUdemyCourses(udemyResponse)
+            repository.local.insertUdemyResponse(udemyResponse)
+            udemyResponse.coursesList?.let {
+                repository.local.insertCourses(it)
+                for (course in udemyResponse.coursesList){
+                    course.comments?.let { comments -> repository.local.insertComments(comments) }
+                }
+            }
         }
 
     fun getCourses() = viewModelScope.launch {
@@ -41,7 +49,7 @@ class MainViewModel @Inject constructor(
 
                 val udemyResponse = coursesResponse.value!!.data
                 if(udemyResponse != null) {
-                    insertRecipes(udemyResponse)
+                    insertUdemyResponse(udemyResponse)
                 }
             } catch (e: Exception) {
                 coursesResponse.value = NetworkResult.Error(e.toString()+"Courses not found.")

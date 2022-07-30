@@ -13,7 +13,8 @@ data class Course (
     @PrimaryKey()
     @SerializedName("id")
     var id: Long,
-    var udemyResponseId: Long,
+    @SerializedName("category_id")
+    var categoryId: Long,
     @SerializedName("title")
     val title: String?,
     @SerializedName("url")
@@ -28,12 +29,12 @@ data class Course (
     val isLiked: Boolean?,
     @Ignore
     @SerializedName("comments")
-    val comments: List<String>?,
+    val comments: List<Comment>?,
     @SerializedName("commentCount")
     val commentCount: Int?
 ){
-    constructor(id: Long,udemyResponseId: Long,title: String?,
+    constructor(id: Long,categoryId: Long,title: String?,
                 url: String?,imageUrl: String?,summary: String?,
                 likeCount: Int?,isLiked: Boolean?,commentCount: Int?) :
-            this(id,udemyResponseId,title,url,imageUrl,summary,likeCount,isLiked,null,commentCount)
+            this(id,categoryId,title,url,imageUrl,summary,likeCount,isLiked,null,commentCount)
 }

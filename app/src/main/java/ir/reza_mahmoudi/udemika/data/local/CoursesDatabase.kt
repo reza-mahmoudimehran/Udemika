@@ -4,12 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import ir.reza_mahmoudi.udemika.model.Comment
 import ir.reza_mahmoudi.udemika.model.Course
 import ir.reza_mahmoudi.udemika.model.UdemyResponse
 import ir.reza_mahmoudi.udemika.utils.Constants
 
 @Database(
-    entities = [Course::class, UdemyResponse::class],
+    entities = [Course::class, UdemyResponse::class,Comment::class],
     version = 1 ,
     exportSchema = false
 )
