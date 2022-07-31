@@ -2,15 +2,63 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="72dp"
+    android:padding="@dimen/spacing_middle">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/profileImageBackground"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_centerHorizontal="true"
+        android:elevation="12dp"
+        app:cardCornerRadius="26dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/userProfile"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_user" />
+    </androidx.cardview.widget.CardView>
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:text="user_name"
+        android:padding="@dimen/spacing_small"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/font_main"
+        android:gravity="start"
+        app:layout_constraintStart_toEndOf="@+id/profileImageBackground"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/font_main"
+        android:gravity="start"
+        android:padding="@dimen/spacing_small"
         android:text="text"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/userName"
+        app:layout_constraintStart_toEndOf="@+id/userName"
+        app:layout_constraintTop_toTopOf="@+id/userName" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_small"
+        android:fontFamily="@font/font_main"
+        android:gravity="start"
+        android:padding="@dimen/spacing_small"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

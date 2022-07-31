@@ -34,7 +34,8 @@ class CommentsAdapter : PagingDataAdapter<Comment, CommentsAdapter.MainViewHolde
         val item = getItem(position)
 
         holder.binding.apply {
-            textView.text = item?.text
+            text.text = item?.text
+            time.text = item?.time
         }
     }
 }

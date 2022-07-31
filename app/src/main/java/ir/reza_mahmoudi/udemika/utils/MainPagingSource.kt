@@ -8,16 +8,18 @@ import ir.reza_mahmoudi.udemika.data.local.LocalDataSource
 import ir.reza_mahmoudi.udemika.data.repository.Repository
 import ir.reza_mahmoudi.udemika.model.Comment
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
 class MainPagingSource(
-    private val repository: Repository
+    private val repository: Repository,
+    private val courseId: Long
 ) : PagingSource<Int, Comment>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Comment> {
         val page = params.key ?: 0
 
         return try {
             val entities = repository.local
-                .getComments(2642574,params.loadSize, page * params.loadSize)
+                .getComments(courseId,params.loadSize, page * params.loadSize)
 
             // simulate page loading
             if (page != 0) delay(1000)

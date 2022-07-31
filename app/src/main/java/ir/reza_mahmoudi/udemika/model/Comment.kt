@@ -10,7 +10,7 @@ import ir.reza_mahmoudi.udemika.utils.Constants
 )
 data class Comment(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long?=null,
     @SerializedName("text")
     val text: String?,
     @SerializedName("course_id")

@@ -20,14 +20,20 @@ interface CoursesDao {
     suspend fun insertCourses(courses: List<Course>)
 
     @Query("SELECT * FROM course_table")
-    fun getCourses(): Flow<List<Course>>
+    fun getCoursesList(): Flow<List<Course>>
+
+    @Query("SELECT * FROM course_table where id= :courseId")
+    fun getCourse(courseId:Long): Flow<Course>
 
     @Transaction
     @Insert()
-    suspend fun insertComments(comments: List<Comment>)
+    suspend fun insertCommentsList(comments: List<Comment>)
+
+    @Insert()
+    suspend fun insertComment(comment:Comment)
 
     //@Query("SELECT * FROM comments_table where courseId= :courseId")
-    @Query("SELECT * FROM comments_table where courseId= :courseId ORDER BY id ASC LIMIT :limit OFFSET :offset")
+    @Query("SELECT * FROM comments_table where courseId= :courseId ORDER BY id DESC LIMIT :limit OFFSET :offset")
     suspend fun getComments(courseId:Long,limit: Int, offset: Int): List<Comment>
 
     @Query("UPDATE course_table SET isLiked = :isLiked WHERE id = :courseId")

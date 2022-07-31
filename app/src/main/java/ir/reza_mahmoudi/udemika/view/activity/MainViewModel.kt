@@ -2,18 +2,12 @@ package ir.reza_mahmoudi.udemika.view.activity
 
 import android.content.SharedPreferences
 import androidx.lifecycle.*
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.reza_mahmoudi.udemika.data.repository.Repository
-import ir.reza_mahmoudi.udemika.model.Comment
 import ir.reza_mahmoudi.udemika.model.Course
 import ir.reza_mahmoudi.udemika.model.UdemyResponse
-import ir.reza_mahmoudi.udemika.utils.MainPagingSource
 import ir.reza_mahmoudi.udemika.utils.NetworkHelper
 import ir.reza_mahmoudi.udemika.utils.NetworkResult
-import ir.reza_mahmoudi.udemika.utils.showLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -31,15 +25,6 @@ class MainViewModel @Inject constructor(
     var localCourses: LiveData<List<Course>> = MutableLiveData()
 //    val localCourseComments: LiveData<List<Comment>> =
 //        repository.local.getComments(2642574,2,1).asLiveData()
-val data = Pager(
-    PagingConfig(
-        pageSize = 2,
-        enablePlaceholders = false,
-        initialLoadSize = 2
-    ),
-) {
-    MainPagingSource(repository)
-}.flow.cachedIn(viewModelScope)
 
     var coursesListFromApi: MutableLiveData<NetworkResult> = MutableLiveData()
 
@@ -49,7 +34,7 @@ val data = Pager(
             udemyResponse.coursesList?.let {
                 repository.local.insertCourses(it.reversed())
                 for (course in udemyResponse.coursesList) {
-                    course.comments?.let { comments -> repository.local.insertComments(comments) }
+                    course.comments?.let { comments -> repository.local.insertCommentsList(comments) }
                 }
             }
             sharedPreferences.edit().putBoolean("firstLogin", false).apply()
@@ -63,7 +48,7 @@ val data = Pager(
         getCoursesFromLocalSafeCall()
     }
     private fun getCoursesFromLocalSafeCall() {
-        localCourses = repository.local.getCourses().asLiveData()
+        localCourses = repository.local.getCoursesList().asLiveData()
     }
 
     fun getCoursesFromApi() = viewModelScope.launch {

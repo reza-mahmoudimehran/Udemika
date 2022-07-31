@@ -1,16 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.fragment.comments.CommentsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="course"
+            type="ir.reza_mahmoudi.udemika.model.Course" />
+    </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/commentsList"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/likeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/likeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                setLikeColor="@{course.isLiked}"
+                android:layout_margin="@dimen/spacing_medium"
+                android:background="@color/transparent"
+                android:backgroundTint="@color/grey_600"
+                android:src="@drawable/ic_favorite" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/likeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/LikeAndComment"
+                setLikeCount="@{course.likeCount}" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CourseTitle"
+            android:text="@{course.title}" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/CourseTitle"
+            android:text="@{course.summary}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/commentsList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_600"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/commentText"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:padding="@dimen/spacing_middle"
+                android:textColor="@color/black"
+                android:background="@color/transparent"
+                android:hint="Comment as ..."
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                setLikeColor="@{course.isLiked}"
+                android:layout_margin="@dimen/spacing_medium"
+                android:background="@color/transparent"
+                android:backgroundTint="@color/grey_600"
+                android:src="@drawable/ic_send" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</layout>

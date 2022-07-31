@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ir.reza_mahmoudi.udemika.BuildConfig
 import ir.reza_mahmoudi.udemika.R
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun getProgressDrawable(context: Context): CircularProgressDrawable {
     return CircularProgressDrawable(context).apply {
@@ -32,3 +34,4 @@ fun showLog(tag: String, msg: String){
         Log.e(tag,msg)
     }
 }
+fun getCurrentTime()= SimpleDateFormat("hh.mm aa").format(Date()).toString()

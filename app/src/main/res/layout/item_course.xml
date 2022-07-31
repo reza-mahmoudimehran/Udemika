@@ -44,7 +44,6 @@
                     setLikeColor="@{course.isLiked}"
                     android:layout_margin="@dimen/spacing_medium"
                     android:background="@color/transparent"
-                    android:backgroundTint="@color/grey_600"
                     android:src="@drawable/ic_favorite" />
 
                 <androidx.appcompat.widget.AppCompatImageButton

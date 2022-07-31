@@ -18,12 +18,20 @@ class LocalDataSource @Inject constructor(
     suspend fun insertCourses(courses: List<Course>){
         coursesDao.insertCourses(courses)
     }
-    fun getCourses(): Flow<List<Course>>{
-        return coursesDao.getCourses()
+    fun getCoursesList(): Flow<List<Course>>{
+        return coursesDao.getCoursesList()
     }
 
-    suspend fun insertComments(comments: List<Comment>){
-        coursesDao.insertComments(comments)
+    fun getCourse(courseId:Long): Flow<Course>{
+        return coursesDao.getCourse(courseId)
+    }
+
+    suspend fun insertCommentsList(comments: List<Comment>){
+        coursesDao.insertCommentsList(comments)
+    }
+
+    suspend fun insertComment(comment: Comment){
+        coursesDao.insertComment(comment)
     }
     suspend fun getComments(courseId: Long,limit: Int, offset: Int): List<Comment>{
         return coursesDao.getComments(courseId,limit, offset)
