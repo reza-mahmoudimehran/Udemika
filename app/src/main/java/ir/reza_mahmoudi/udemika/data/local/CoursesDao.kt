@@ -22,6 +22,9 @@ interface CoursesDao {
     @Query("SELECT * FROM course_table")
     fun getCoursesList(): Flow<List<Course>>
 
+    @Query("SELECT * FROM course_table LIMIT :limit OFFSET :offset")
+    suspend fun getCoursesListPage(limit: Int, offset: Int): List<Course>
+
     @Query("SELECT * FROM course_table where id= :courseId")
     fun getCourse(courseId:Long): Flow<Course>
 
@@ -32,7 +35,6 @@ interface CoursesDao {
     @Insert()
     suspend fun insertComment(comment:Comment)
 
-    //@Query("SELECT * FROM comments_table where courseId= :courseId")
     @Query("SELECT * FROM comments_table where courseId= :courseId ORDER BY id DESC LIMIT :limit OFFSET :offset")
     suspend fun getComments(courseId:Long,limit: Int, offset: Int): List<Comment>
 

@@ -1,28 +1,23 @@
 package ir.reza_mahmoudi.udemika.utils
 
-import androidx.lifecycle.asLiveData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import ir.reza_mahmoudi.udemika.data.local.CoursesDao
-import ir.reza_mahmoudi.udemika.data.local.LocalDataSource
 import ir.reza_mahmoudi.udemika.data.repository.Repository
-import ir.reza_mahmoudi.udemika.model.Comment
+import ir.reza_mahmoudi.udemika.model.Course
 import kotlinx.coroutines.delay
-import javax.inject.Inject
 
-class MainPagingSource(
-    private val repository: Repository,
-    private val courseId: Long
-) : PagingSource<Int, Comment>() {
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Comment> {
+class CoursePagingSource(
+    private val repository: Repository
+) : PagingSource<Int, Course>() {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Course> {
         val page = params.key ?: 0
 
         return try {
             val entities = repository.local
-                .getComments(courseId,params.loadSize, page * params.loadSize)
+                .getCoursesListPage(params.loadSize, page * params.loadSize)
 
             // simulate page loading
-            if (page != 0) delay(1000)
+            if (page != 0) delay(500)
 
             LoadResult.Page(
                 data = entities,
@@ -34,7 +29,7 @@ class MainPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Comment>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Course>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)

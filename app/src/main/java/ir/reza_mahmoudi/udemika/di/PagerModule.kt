@@ -18,10 +18,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class PagerModule {
+object PagerModule {
     @Singleton
     @Provides
     fun providePagingConfig(): PagingConfig {
-        return PagingConfig(pageSize = 5, enablePlaceholders = false, initialLoadSize = 10)
+        return PagingConfig(pageSize = 3, enablePlaceholders = false, initialLoadSize = 5)
     }
 }

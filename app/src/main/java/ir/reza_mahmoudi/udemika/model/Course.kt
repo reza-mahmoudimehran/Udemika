@@ -26,7 +26,7 @@ data class Course (
     @SerializedName("likeCount")
     val likeCount: Int?,
     @SerializedName("isLiked")
-    val isLiked: Boolean?,
+    var isLiked: Boolean?,
     @Ignore
     @SerializedName("comments")
     val comments: List<Comment>?,

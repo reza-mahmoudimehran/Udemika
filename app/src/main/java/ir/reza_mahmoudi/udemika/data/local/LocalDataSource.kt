@@ -21,6 +21,9 @@ class LocalDataSource @Inject constructor(
     fun getCoursesList(): Flow<List<Course>>{
         return coursesDao.getCoursesList()
     }
+    suspend fun getCoursesListPage(limit: Int, offset: Int): List<Course>{
+        return coursesDao.getCoursesListPage(limit,offset)
+    }
 
     fun getCourse(courseId:Long): Flow<Course>{
         return coursesDao.getCourse(courseId)

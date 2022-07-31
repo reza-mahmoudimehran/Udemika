@@ -23,10 +23,10 @@ class CommentsViewModel @Inject constructor(
 ) : ViewModel() {
     var courseData: LiveData<Course> = MutableLiveData()
 
-    fun data() = Pager(pagingConfig) {MainPagingSource(repository,2642574) }.flow.cachedIn(viewModelScope)
+    fun data(courseId: Long) = Pager(pagingConfig) {MainPagingSource(repository,courseId) }.flow.cachedIn(viewModelScope)
 
-    fun getCommentsFromLocal() = viewModelScope.launch {
-        courseData = repository.local.getCourse(2642574).asLiveData()
+    fun getCourseDataFromLocal(courseId: Long) = viewModelScope.launch {
+        courseData = repository.local.getCourse(courseId).asLiveData()
     }
     fun addComments(text:String, courseId:Long) = viewModelScope.launch {
         val time= getCurrentTime()

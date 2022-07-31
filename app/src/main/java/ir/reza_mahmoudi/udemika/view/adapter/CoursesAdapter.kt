@@ -1,70 +1,54 @@
 package ir.reza_mahmoudi.udemika.view.adapter
 
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import ir.reza_mahmoudi.udemika.R
 import ir.reza_mahmoudi.udemika.databinding.ItemCourseBinding
 import ir.reza_mahmoudi.udemika.model.Course
-import ir.reza_mahmoudi.udemika.utils.DiffUtilCallback
 
-class CoursesAdapter(private val goToComments: () -> Unit,
-                     private val changeCourseIsLiked: (isLiked:Boolean, courseId: Long) -> Unit) : RecyclerView.Adapter<CoursesAdapter.ViewHolder>() {
+class CoursesAdapter(private val goToComments: (courseId: Long) -> Unit,
+                      private val changeCourseIsLiked: (isLiked:Boolean, courseId: Long) -> Unit)
+    : PagingDataAdapter<Course, CoursesAdapter.MainViewHolder>(DIFF_CALLBACK) {
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Course>() {
+            override fun areItemsTheSame(oldItem: Course, newItem: Course): Boolean =
+                oldItem.id == newItem.id
 
-    private var courses = emptyList<Course>()
-
-    class ViewHolder(private val binding: ItemCourseBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(course: Course,
-                 goToComments: () -> Unit,
-                 changeCourseIsLiked: (isLiked:Boolean, courseId: Long) -> Unit
-                 ,isLiked:Boolean, courseId: Long) {
-            // Data Binding
-            binding.course = course
-            binding.commentCount.setOnClickListener {
-                goToComments()
-            }
-            binding.commentIcon.setOnClickListener {
-                goToComments()
-            }
-            binding.likeIcon.setOnClickListener {
-                changeCourseIsLiked(isLiked,courseId)
-            }
-            binding.executePendingBindings()
+            override fun areContentsTheSame(oldItem: Course, newItem: Course): Boolean =
+                oldItem == newItem
         }
+    }
 
-        companion object {
-            // Use this function inside onCreateViewHolder
-            fun from(parent: ViewGroup): ViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemCourseBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
+    inner class MainViewHolder(val binding: ItemCourseBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+        return MainViewHolder(
+            ItemCourseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
+    }
+
+    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+        val item = getItem(position)
+
+        holder.binding.apply {
+            course=item
+            if (item != null) {
+                commentIcon.setOnClickListener {goToComments(item.id)}
+                commentCount.setOnClickListener {goToComments(item.id)}
+                likeIcon.setOnClickListener {
+                    changeCourseIsLiked(item.isLiked!!, item.id)
+                    item.isLiked?.let { isLiked ->
+                        val likeColor=if (isLiked){ R.color.grey_600 }else{ R.color.red_600}
+                        likeIcon.setColorFilter(ContextCompat.getColor(it.context, likeColor))
+                    }
+                }
             }
+
         }
-
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentCourse = courses[position]
-        val courseId= courses[position].id
-        val isLiked= courses[position].isLiked
-        holder.bind(currentCourse,goToComments,changeCourseIsLiked,isLiked!!,courseId)
-    }
-
-    override fun getItemCount(): Int {
-        return courses.size
-    }
-
-    fun updateCourses(newData: List<Course>){
-        val recipesDiffUtil =
-            DiffUtilCallback(courses, newData)
-        val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
-        courses = newData
-        diffUtilResult.dispatchUpdatesTo(this)
     }
 }
