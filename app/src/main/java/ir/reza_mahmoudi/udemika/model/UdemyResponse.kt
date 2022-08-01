@@ -21,6 +21,7 @@ data class UdemyResponse (
     @SerializedName("items")
     val coursesList: List<Course>?
 ){
+    //Secondary Constructor to Ignore Courses List as a Column of udemy_table Table
     constructor(categoryId: Long,title: String,itemType: String) :
             this(categoryId,title,itemType,null)
 }

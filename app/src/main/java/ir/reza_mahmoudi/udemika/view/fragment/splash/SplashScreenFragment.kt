@@ -15,16 +15,15 @@ import ir.reza_mahmoudi.udemika.R
 import ir.reza_mahmoudi.udemika.databinding.FragmentSplashScreenBinding
 import ir.reza_mahmoudi.udemika.utils.NetworkResult
 import ir.reza_mahmoudi.udemika.utils.showLog
-import ir.reza_mahmoudi.udemika.view.activity.MainViewModel
 
 @AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var splashViewModel: SplashViewModel
     private lateinit var binding: FragmentSplashScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        splashViewModel = ViewModelProvider(requireActivity())[SplashViewModel::class.java]
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +31,7 @@ class SplashScreenFragment : Fragment() {
     ): View {
         binding = FragmentSplashScreenBinding.inflate(layoutInflater)
         loadAnimation()
-        mainViewModel.getCoursesFromApi()
+        splashViewModel.getCoursesFromApi()
         observeViewModel()
         return binding.root
     }
@@ -41,13 +40,19 @@ class SplashScreenFragment : Fragment() {
         binding.loadingAnimation.playAnimation()
     }
     private fun observeViewModel(){
-        mainViewModel.coursesListFromApi.observe(viewLifecycleOwner) { it ->
+        splashViewModel.coursesListFromApi.observe(viewLifecycleOwner) { it ->
             when (it) {
+                is NetworkResult.Loading -> {
+                    //showLog("observe Home ViewModel: ",it.message.toString())
+                }
                 is NetworkResult.Success -> {
                     goToHome()
                 }
                 is NetworkResult.Error -> {
                     showLog("observe Home ViewModel: ",it.message.toString())
+                }
+                is NetworkResult.Empty -> {
+                    goToHome()
                 }
             }
         }

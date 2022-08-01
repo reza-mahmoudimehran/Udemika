@@ -11,21 +11,18 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ir.reza_mahmoudi.udemika.R
 import ir.reza_mahmoudi.udemika.databinding.FragmentHomeBinding
-import ir.reza_mahmoudi.udemika.utils.MainLoadStateAdapter
-import ir.reza_mahmoudi.udemika.view.activity.MainViewModel
+import ir.reza_mahmoudi.udemika.view.paging.MainLoadStateAdapter
 import ir.reza_mahmoudi.udemika.view.adapter.CoursesAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-    private lateinit var mainViewModel: MainViewModel
     private lateinit var homeViewModel: HomeViewModel
     private  lateinit var binding: FragmentHomeBinding
     private  lateinit var adapter: CoursesAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
     }
     override fun onCreateView(
@@ -58,6 +55,6 @@ class HomeFragment : Fragment() {
         findNavController().navigate(R.id.action_homeFragment_to_commentsFragment,bundle)
     }
     private fun changeIsLiked(isLiked:Boolean, courseId: Long){
-        mainViewModel.changeIsLiked(isLiked, courseId)
+        homeViewModel.changeIsLiked(isLiked, courseId)
     }
 }

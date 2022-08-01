@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
     private val coursesApi: CoursesApi
-) {
-    suspend fun getCourses(): Response<UdemyResponse> {
-        return coursesApi.getCourses()
+) : CoursesApiHelper{
+    override suspend fun getUdemy(): Response<UdemyResponse> {
+        return coursesApi.getUdemy()
     }
 }

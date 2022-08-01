@@ -5,6 +5,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ir.reza_mahmoudi.udemika.data.remote.CoursesApi
+import ir.reza_mahmoudi.udemika.data.remote.CoursesApiHelper
+import ir.reza_mahmoudi.udemika.data.remote.RemoteDataSource
 import ir.reza_mahmoudi.udemika.utils.Constants.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -19,8 +21,8 @@ object NetworkModule {
     @Provides
     fun provideOkHttpClient(): OkHttpClient{
         return OkHttpClient.Builder()
-            .readTimeout(15, TimeUnit.SECONDS)
-            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
             .build()
     }
 
@@ -48,4 +50,8 @@ object NetworkModule {
     fun provideApiService(retrofit: Retrofit): CoursesApi {
         return retrofit.create(CoursesApi::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideApiHelper(apiHelper: RemoteDataSource): CoursesApiHelper = apiHelper
 }

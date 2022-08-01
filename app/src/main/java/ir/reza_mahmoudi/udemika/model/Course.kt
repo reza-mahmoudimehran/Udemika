@@ -33,6 +33,7 @@ data class Course (
     @SerializedName("commentCount")
     val commentCount: Int?
 ){
+    //Secondary Constructor to Ignore Comments List as a Column of course_table Table
     constructor(id: Long,categoryId: Long,title: String?,
                 url: String?,imageUrl: String?,summary: String?,
                 likeCount: Int?,isLiked: Boolean?,commentCount: Int?) :

@@ -13,8 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.reza_mahmoudi.udemika.R
 import ir.reza_mahmoudi.udemika.databinding.FragmentCommentsBinding
 import ir.reza_mahmoudi.udemika.model.Course
-import ir.reza_mahmoudi.udemika.utils.MainLoadStateAdapter
-import ir.reza_mahmoudi.udemika.view.activity.MainViewModel
+import ir.reza_mahmoudi.udemika.view.paging.MainLoadStateAdapter
 import ir.reza_mahmoudi.udemika.view.adapter.CommentsAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,13 +21,11 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CommentsFragment : Fragment() {
     private lateinit var commentsViewModel: CommentsViewModel
-    private lateinit var mainViewModel: MainViewModel
     private lateinit var binding: FragmentCommentsBinding
     private var courseId: Long=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         courseId= arguments?.getLong("courseId")!!
-        mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         commentsViewModel = ViewModelProvider(requireActivity())[CommentsViewModel::class.java]
     }
     override fun onCreateView(
@@ -68,14 +65,10 @@ class CommentsFragment : Fragment() {
         }
         binding.likeIcon.setOnClickListener{
             courseData?.isLiked?.let {
-                    isLiked -> mainViewModel.changeIsLiked(isLiked,courseId)
-                val likeColor=if (isLiked){
-                    R.color.grey_600
-                }else{ R.color.red_600}
+                    isLiked -> commentsViewModel.changeIsLiked(isLiked,courseId)
+                val likeColor=if (isLiked){ R.color.grey_600 }else{ R.color.red_600 }
                 if(it is ImageView){
-                    it.setColorFilter(
-                        ContextCompat.getColor(it.context, likeColor)
-                    )
+                    it.setColorFilter(ContextCompat.getColor(it.context, likeColor))
                 }
             }
         }

@@ -1,4 +1,4 @@
-package ir.reza_mahmoudi.udemika.utils
+package ir.reza_mahmoudi.udemika.view.paging
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

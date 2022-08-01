@@ -1,20 +1,20 @@
-package ir.reza_mahmoudi.udemika.utils
+package ir.reza_mahmoudi.udemika.view.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import ir.reza_mahmoudi.udemika.data.repository.Repository
-import ir.reza_mahmoudi.udemika.model.Course
+import ir.reza_mahmoudi.udemika.data.repository.IRepository
+import ir.reza_mahmoudi.udemika.model.Comment
 import kotlinx.coroutines.delay
 
-class CoursePagingSource(
-    private val repository: Repository
-) : PagingSource<Int, Course>() {
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Course> {
+class MainPagingSource(
+    private val repository: IRepository,
+    private val courseId: Long
+) : PagingSource<Int, Comment>() {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Comment> {
         val page = params.key ?: 0
 
         return try {
-            val entities = repository.local
-                .getCoursesListPage(params.loadSize, page * params.loadSize)
+            val entities = repository.getComments(courseId,params.loadSize, page * params.loadSize)
 
             // simulate page loading
             if (page != 0) delay(500)
@@ -29,7 +29,7 @@ class CoursePagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Course>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Comment>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)

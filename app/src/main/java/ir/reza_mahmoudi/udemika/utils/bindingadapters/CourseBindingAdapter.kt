@@ -9,6 +9,7 @@ import ir.reza_mahmoudi.udemika.R
 import ir.reza_mahmoudi.udemika.utils.getProgressDrawable
 import ir.reza_mahmoudi.udemika.utils.loadImage
 
+//BindingAdapter for Course Items, to Using Custom DataBinding
 class CourseBindingAdapter {
     companion object {
         @BindingAdapter("loadImage")

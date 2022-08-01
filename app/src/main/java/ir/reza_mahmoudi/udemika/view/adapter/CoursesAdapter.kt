@@ -41,8 +41,8 @@ class CoursesAdapter(private val goToComments: (courseId: Long) -> Unit,
                 commentIcon.setOnClickListener {goToComments(item.id)}
                 commentCount.setOnClickListener {goToComments(item.id)}
                 likeIcon.setOnClickListener {
-                    changeCourseIsLiked(item.isLiked!!, item.id)
                     item.isLiked?.let { isLiked ->
+                        changeCourseIsLiked(isLiked, item.id)
                         val likeColor=if (isLiked){ R.color.grey_600 }else{ R.color.red_600}
                         likeIcon.setColorFilter(ContextCompat.getColor(it.context, likeColor))
                     }

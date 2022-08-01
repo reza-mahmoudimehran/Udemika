@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ir.reza_mahmoudi.udemika.databinding.ItemCommentBinding
 import ir.reza_mahmoudi.udemika.model.Comment
-import ir.reza_mahmoudi.udemika.model.Course
-import ir.reza_mahmoudi.udemika.utils.DiffUtilCallback
 
 class CommentsAdapter : PagingDataAdapter<Comment, CommentsAdapter.MainViewHolder>(DIFF_CALLBACK) {
 
