@@ -3,11 +3,9 @@ package ir.reza_mahmoudi.udemika.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import ir.reza_mahmoudi.udemika.R
 import ir.reza_mahmoudi.udemika.databinding.ItemCourseBinding
 import ir.reza_mahmoudi.udemika.model.Course
 
@@ -43,12 +41,11 @@ class CoursesAdapter(private val goToComments: (courseId: Long) -> Unit,
                 likeIcon.setOnClickListener {
                     item.isLiked?.let { isLiked ->
                         changeCourseIsLiked(isLiked, item.id)
-                        val likeColor=if (isLiked){ R.color.grey_600 }else{ R.color.red_600}
-                        likeIcon.setColorFilter(ContextCompat.getColor(it.context, likeColor))
+                        snapshot()[position]?.isLiked = !isLiked
+                        notifyItemChanged(position)
                     }
                 }
             }
-
         }
     }
 }

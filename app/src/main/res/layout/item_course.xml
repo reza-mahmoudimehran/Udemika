@@ -22,7 +22,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/coverImage"
                 android:layout_width="match_parent"
-                android:layout_height="256dp"
+                android:layout_height="@dimen/course_cover_size"
                 android:background="@color/grey_600"
                 android:scaleType="fitXY"
                 loadImage="@{course.imageUrl}"

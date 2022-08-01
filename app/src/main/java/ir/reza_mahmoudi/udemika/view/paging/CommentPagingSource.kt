@@ -17,7 +17,7 @@ class MainPagingSource(
             val entities = repository.getComments(courseId,params.loadSize, page * params.loadSize)
 
             // simulate page loading
-            if (page != 0) delay(500)
+            if (page != 0) delay(1000)
 
             LoadResult.Page(
                 data = entities,

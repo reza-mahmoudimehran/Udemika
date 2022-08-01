@@ -2,6 +2,9 @@
 <resources>
 
     <dimen name="splash_lottie_width">172dp</dimen>
+    <dimen name="profile_image_size">52dp</dimen>
+    <dimen name="comment_item_height">72dp</dimen>
+    <dimen name="course_cover_size">256dp</dimen>
 
     <!--general spacing-->
     <dimen name="spacing_xsmall">2dp</dimen>
@@ -29,4 +32,5 @@
     <dimen name="font_size_smlarge">20sp</dimen>
     <dimen name="font_size_mlarge">24sp</dimen>
     <dimen name="font_size_mxlarge">30sp</dimen>
+
 </resources>

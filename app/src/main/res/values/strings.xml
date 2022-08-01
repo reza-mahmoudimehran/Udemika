@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Udemika</string>
+    <string name="user_name">user_name</string>
+    <string name="comment_hint_text">Comment as ...</string>
 </resources>

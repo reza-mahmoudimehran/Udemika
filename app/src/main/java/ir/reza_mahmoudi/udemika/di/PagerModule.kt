@@ -13,6 +13,6 @@ object PagerModule {
     @Singleton
     @Provides
     fun providePagingConfig(): PagingConfig {
-        return PagingConfig(pageSize = 3, enablePlaceholders = false, initialLoadSize = 5)
+        return PagingConfig(pageSize = 3, enablePlaceholders = false, initialLoadSize = 3)
     }
 }

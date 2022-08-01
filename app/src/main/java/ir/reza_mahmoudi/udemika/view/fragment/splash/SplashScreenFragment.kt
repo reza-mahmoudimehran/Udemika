@@ -9,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ir.reza_mahmoudi.udemika.R
 import ir.reza_mahmoudi.udemika.databinding.FragmentSplashScreenBinding
 import ir.reza_mahmoudi.udemika.utils.NetworkResult
 import ir.reza_mahmoudi.udemika.utils.showLog
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
@@ -58,9 +60,12 @@ class SplashScreenFragment : Fragment() {
         }
     }
     private fun goToHome(){
-        //TODO: change splash time
-        Handler(Looper.getMainLooper()).postDelayed({
+        lifecycleScope.launchWhenResumed {
+            delay(5000)
             findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
-        }, 5)
+        }
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
+//        }, 5000)
     }
 }
